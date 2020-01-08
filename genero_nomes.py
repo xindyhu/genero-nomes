@@ -213,12 +213,17 @@ class NamesByGender:
         connection.commit()
 
         # fobj = io.TextIOWrapper(
-        #     open(input_filename, mode='r'),
+        #     lzma.open(input_filename, mode='r'),
         #     encoding=encoding,
         # )
-
-        #progress = tqdm(csv.DictReader(fobj))
-        with open(input_filename) as csvfile:
+        # progress = tqdm(csv.DictReader(fobj))
+        # for batch in ipartition(progress, self.batch_size):
+        #     self._insert_names(
+        #         temptable,
+        #         [row['name'] for row in batch
+        #          if row['document_type'] == 'CPF'],
+        #     )
+        with open(input_filename, errors='ignore') as csvfile:
             progress = csv.DictReader(csvfile)
             for batch in ipartition(progress, self.batch_size):
                 self._insert_names(
@@ -226,6 +231,7 @@ class NamesByGender:
                     [row['first_name'] for row in batch
                     if row['document_type'] == 'CPF'],
                 )
+
         cursor.execute(sql_create_index.format(tablename=temptable))
         connection.commit()
 
@@ -435,7 +441,7 @@ if __name__ == '__main__':
                  'extract-alternatives', 'export-csv', 'define-groups']
     )
     args = parser.parse_args()
-    dataset_filename = 'data/input/Clients_Compesa_August_FinalVersion.csv.xz'
+    dataset_filename = 'data/input/Compesa_August19.csv'
     db_filename = 'data/input/temp.sqlite'
     output_names_filename = 'data/output/nomes.csv.xz'
     output_groups_filename = 'data/output/grupos.csv.xz'
