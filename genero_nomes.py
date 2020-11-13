@@ -441,7 +441,7 @@ if __name__ == '__main__':
                  'extract-alternatives', 'export-csv', 'define-groups']
     )
     args = parser.parse_args()
-    dataset_filename = 'data/input/Compesa_August19.csv'
+    dataset_filename = 'data/input/all_df_client_name.csv'
     db_filename = 'data/input/temp.sqlite'
     output_names_filename = 'data/output/nomes.csv.xz'
     output_groups_filename = 'data/output/grupos.csv.xz'
